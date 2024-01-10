@@ -12,4 +12,12 @@ public class HealthController : ControllerBase
         var healthStatus = new Health();
         return Ok(healthStatus);
     }
+
+    [HttpGet("Xml", Name = "GetHealthXml")]
+    [Produces("application/xml")]
+    public IActionResult GetXml()
+    {
+        var healthStatus = new Health();
+        return Ok(healthStatus);
+    }
 }
