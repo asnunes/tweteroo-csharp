@@ -1,8 +1,6 @@
-# STONE-POC
+# Tweeteroo API
 
-This application is a simple POC for .NET 8 ASP API for a Stone Program. It connects to a PostgreSQL database and exposes a REST API.
-
-To run the Postgres with docker-compose, run the following command:
+This application is a simple POC for an C# .Net Core ASP API.
 
 ```bash
 make dev-db
