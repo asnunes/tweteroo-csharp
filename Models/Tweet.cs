@@ -1,18 +1,20 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class User
+public class Tweet
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
-    [MaxLength(256)]
-    public required string Username { get; set; }
+    public int UserId { get; set; }
+
+    [ForeignKey("UserId")]
+    public User? User { get; set; }
 
     [Required]
-    public required string Avatar { get; set; }
-
-    public ICollection<Tweet>? Tweet { get; set; }
+    [MaxLength(256)]
+    public required string Value { get; set; }
 }
+
