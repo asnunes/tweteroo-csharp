@@ -9,6 +9,7 @@ public class HealthController : ControllerBase
     [HttpGet(Name = "GetHealth")]
     public IActionResult Get()
     {
-        return Ok("Healthy");
+        var healthStatus = new Health();
+        return Ok(healthStatus);
     }
 }
