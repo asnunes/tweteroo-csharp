@@ -5,14 +5,9 @@ namespace stonepoc.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UsersController : ControllerBase
+public class UsersController(PostgresDbContext context) : ControllerBase
 {
-    private readonly PostgresDbContext _context;
-
-    public UsersController(PostgresDbContext context)
-    {
-        _context = context;
-    }
+    private readonly PostgresDbContext _context = context;
 
     [HttpPost(Name = "PostUsers")]
     public async Task<IActionResult> Post([FromBody] CreateUserDto createUserDto)
