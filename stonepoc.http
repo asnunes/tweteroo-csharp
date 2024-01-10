@@ -1,0 +1,6 @@
+@stonepoc_HostAddress = http://localhost:5144
+
+GET {{stonepoc_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
