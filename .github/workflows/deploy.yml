@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        dotnet: ['5.0.x','6.0.x', '8.0.1']
+        dotnet: ['8.0.1']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
