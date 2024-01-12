@@ -58,16 +58,16 @@ jobs:
       - name: Run migrations
         run: |
           cd $GITHUB_WORKSPACE
-          dotnet restore
-          dotnet tool install --global dotnet-ef
-          export PATH="$PATH:/home/runner/.dotnet/tools"
-          dotnet ef database update
-        env:
-          POSTGRES_HOST: ${{ secrets.STAGING_POSTGRES_HOST }}
-          POSTGRES_PORT: ${{ secrets.STAGING_POSTGRES_PORT }}
-          POSTGRES_USERNAME: ${{ secrets.STAGING_POSTGRES_USERNAME }}
-          POSTGRES_DATABASE: ${{ secrets.STAGING_POSTGRES_DATABASE }}
-          POSTGRES_PASSWORD: ${{ secrets.STAGING_POSTGRES_PASSWORD }}
+          docker build --progress=plain -t tweteroo-migrations -f Dockerfile.migrations .
+          docker run --rm \
+            -e POSTGRES_HOST=${{ secrets.STAGING_POSTGRES_HOST }} \
+            -e POSTGRES_PORT=${{ secrets.STAGING_POSTGRES_PORT }} \
+            -e POSTGRES_USERNAME=${{ secrets.STAGING_POSTGRES_USERNAME }} \
+            -e POSTGRES_DATABASE=${{ secrets.STAGING_POSTGRES_DATABASE }} \
+            -e POSTGRES_PASSWORD=${{ secrets.STAGING_POSTGRES_PASSWORD }} \
+            --network host \
+            tweteroo-migrations
+
 
       - name: Remove current IP on GCP SQL
         if: always()
