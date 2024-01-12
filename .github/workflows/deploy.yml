@@ -7,7 +7,7 @@ name: Build and Deploy to Cloud Run
 env:
   PROJECT_ID: ${{ secrets.GCP_STAGING_PROJECT }}
   SA_KEY: ${{ secrets.GCP_STAGING_SA_KEY }}
-  git push
+  GCP_SQL_INSTANCE: ${{ secrets.GCP_SQL_INSTANCE }}
   SERVICE: tweteroo-csharp
   REGION: us-central1
   DOCKER_BUILDKIT: 1
