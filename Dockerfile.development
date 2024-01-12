@@ -1,0 +1,10 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+WORKDIR /app
+
+# Copy CSPROJ file and restore any dependencies via NuGet
+COPY *.csproj ./
+RUN dotnet restore
+
+# Start the application
+CMD ["dotnet", "watch", "run", "--non-interactive"]
