@@ -8,8 +8,8 @@ builder.Services.AddDbContext<PostgresDbContext>(options =>
     string host = builder.Configuration["Database:Host"] ?? string.Empty;
     string port = builder.Configuration["Database:Port"] ?? string.Empty;
     string username = builder.Configuration["Database:Username"] ?? string.Empty;
-    string password = builder.Configuration["Database:Password"] ?? string.Empty;
     string database = builder.Configuration["Database:Name"] ?? string.Empty;
+    string password = builder.Configuration["Database:Password"] ?? string.Empty;
 
     string connectionString = $"Host={host};Port={port};Username={username};Password={password};Database={database}";
 
