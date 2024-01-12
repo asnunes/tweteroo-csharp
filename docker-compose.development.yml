@@ -22,11 +22,11 @@ services:
       dockerfile: Dockerfile.development
     container_name: tweteroo-csharp
     environment:
-      - DATABASE_HOST=localhost
-      - DATABASE_PORT=5432
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=postgres
-      - DATABASE_NAME=stone_dev
+      - DATABASE__HOST=localhost
+      - DATABASE__PORT=5432
+      - DATABASE__USERNAME=postgres
+      - DATABASE__PASSWORD=postgres
+      - DATABASE__NAME=stone_dev
     network_mode: host
     depends_on:
       db:

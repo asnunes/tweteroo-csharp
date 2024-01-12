@@ -60,11 +60,11 @@ jobs:
           cd $GITHUB_WORKSPACE
           docker build --progress=plain -t tweteroo-migrations -f Dockerfile.migrations .
           docker run --rm \
-            -e POSTGRES_HOST=${{ secrets.STAGING_POSTGRES_HOST }} \
-            -e POSTGRES_PORT=${{ secrets.STAGING_POSTGRES_PORT }} \
-            -e POSTGRES_USERNAME=${{ secrets.STAGING_POSTGRES_USERNAME }} \
-            -e POSTGRES_DATABASE=${{ secrets.STAGING_POSTGRES_DATABASE }} \
-            -e POSTGRES_PASSWORD=${{ secrets.STAGING_POSTGRES_PASSWORD }} \
+            -e DATABASE__HOST=${{ secrets.STAGING_POSTGRES_HOST }} \
+            -e DATABASE__PORT=${{ secrets.STAGING_POSTGRES_PORT }} \
+            -e DATABASE__USERNAME=${{ secrets.STAGING_POSTGRES_USERNAME }} \
+            -e DATABASE__NAME=${{ secrets.STAGING_POSTGRES_DATABASE }} \
+            -e DATABASE__PASSWORD=${{ secrets.STAGING_POSTGRES_PASSWORD }} \
             --network host \
             tweteroo-migrations
 
