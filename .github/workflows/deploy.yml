@@ -7,7 +7,7 @@ name: Build and Deploy to Cloud Run
 env:
   PROJECT_ID: ${{ secrets.GCP_STAGING_PROJECT }}
   SA_KEY: ${{ secrets.GCP_STAGING_SA_KEY }}
-  GCP_SQL_INSTANCE: ${{ secrets.GCP_SQL_INSTANCE }}
+  git push
   SERVICE: tweteroo-csharp
   REGION: us-central1
   DOCKER_BUILDKIT: 1
@@ -58,6 +58,7 @@ jobs:
       - name: Run migrations
         run: |
           cd $GITHUB_WORKSPACE
+          dotnet restore
           dotnet tool install --global dotnet-ef
           export PATH="$PATH:/home/runner/.dotnet/tools"
           dotnet ef database update
