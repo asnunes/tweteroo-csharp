@@ -2,10 +2,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '**/*.cs'
-      - 'stonepoc.csproj'
-      - 'Dockerfile'
 
 name: Build and Deploy to Cloud Run
 env:
