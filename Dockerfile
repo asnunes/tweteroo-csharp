@@ -23,6 +23,6 @@ WORKDIR /app
 COPY --from=build-env /app/dist .
 
 # Start the app
-ENTRYPOINT ["dotnet", "stonepoc.dll"]
+CMD ["dotnet", "stonepoc.dll"]
 
 
