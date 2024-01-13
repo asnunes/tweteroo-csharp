@@ -4,7 +4,7 @@ build:
 
 .PRONY: up
 up:
-	docker compose up --env-file .env -d
+	docker compose --env-file .env up -d
 
 .PRONY: down
 down:
