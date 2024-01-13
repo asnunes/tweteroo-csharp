@@ -12,7 +12,7 @@ down:
 
 .PRONY: migrate
 migrate:
-	docker compose run --rm tweteroo-csharp dotnet ef database update
+	docker compose --env-file .env run --rm tweteroo-csharp dotnet ef database update
 
 # DEVELOPMENT
 dev_compose = docker compose -f docker-compose.development.yml
