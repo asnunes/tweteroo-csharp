@@ -10,7 +10,7 @@ up:
 down:
 	docker compose down
 
-.PRONY: migrate-build:
+.PRONY: migrate-build
 migrate-build:
 	docker build -t tweteroocsharp-migrate -f Dockerfile.migrations .
 
