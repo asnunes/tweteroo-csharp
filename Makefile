@@ -12,7 +12,7 @@ down:
 
 .PRONY: migrate-build:
 migrate-build:
-	docker build -t tweteroocsharp-migrate -f Dockerfile.migrate .
+	docker build -t tweteroocsharp-migrate -f Dockerfile.migrations .
 
 # DEVELOPMENT
 dev_compose = docker compose -f docker-compose.development.yml
