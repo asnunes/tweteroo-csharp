@@ -29,3 +29,12 @@ dev-build:
 .PRONY: dev-down
 dev-down:
 	$(dev_compose) down
+
+# CERTIFICATES
+.PRONY: new-cert
+new-cert:
+	docker compose run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d $(DOMAIN)
+
+.PRONY: renew-cert
+renew-cert:
+	docker compose run --rm certbot renew

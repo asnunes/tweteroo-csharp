@@ -3,8 +3,7 @@ services:
   tweteroo-csharp:
     image: tweteroo-csharp:latest
     container_name: tweteroo-csharp
-    ports:
-      - 8080:8080
+    network_mode: host
     environment:
       - DATABASE__HOST=localhost
       - DATABASE__PORT=5432
@@ -13,3 +12,20 @@ services:
       - DATABASE__NAME=stone_dev
     volumes:
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+  nginx:
+    image: nginx:1.25.3-alpine
+    network_mode: host
+    restart: always
+    volumes:
+      - ./.deploy/nginx/:/etc/nginx/conf.d/:ro
+      - ~/data/docker/certbot/www:/var/www/certbot/:ro
+      - ~/data/docker/certbot/conf/:/etc/nginx/ssl/:ro
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    network_mode: host
+    volumes:
+      - ~/data/docker/certbot/www/:/var/www/certbot/:rw
+      - ~/data/docker/certbot/conf/:/etc/letsencrypt/:rw
