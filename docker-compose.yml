@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  tweteroo-csharp:
+    image: tweteroo-csharp:latest
+    container_name: tweteroo-csharp
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE__HOST=localhost
+      - DATABASE__PORT=5432
+      - DATABASE__USERNAME=postgres
+      - DATABASE__PASSWORD=postgres
+      - DATABASE__NAME=stone_dev
+    volumes:
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
