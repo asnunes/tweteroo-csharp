@@ -10,9 +10,9 @@ up:
 down:
 	docker compose down
 
-.PRONY: migrate
-migrate:
-	docker compose --env-file .env run --rm tweteroo-csharp dotnet ef database update
+.PRONY: migrate-build:
+migrate-build:
+	docker build -t tweteroocsharp-migrate -f Dockerfile.migrate .
 
 # DEVELOPMENT
 dev_compose = docker compose -f docker-compose.development.yml
