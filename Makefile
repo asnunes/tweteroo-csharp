@@ -6,6 +6,10 @@ build:
 up:
 	docker compose up -d
 
+.PRONY: down
+down:
+	docker compose down
+
 # DEVELOPMENT
 dev_compose = docker compose -f docker-compose.development.yml
 
