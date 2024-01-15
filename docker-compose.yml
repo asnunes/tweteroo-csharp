@@ -20,7 +20,7 @@ services:
     network_mode: host
     environment:
       - DATABASE__HOST=${POSTGRES_HOST}
-      - DATABASE__PORT=${POSTGRES_HOST}
+      - DATABASE__PORT=${POSTGRES_PORT}
       - DATABASE__USERNAME=${POSTGRES_USER}
       - DATABASE__PASSWORD=${POSTGRES_PASSWORD}
       - DATABASE__NAME=${POSTGRES_DB}
