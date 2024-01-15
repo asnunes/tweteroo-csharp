@@ -7,6 +7,9 @@ touch $pk_filepath
 echo $PK >> $pk_filepath
 chmod 600 $pk_filepath
 
+echo "HOST *" > ~/.ssh/config
+echo "StrictHostKeyChecking no" >> ~/.ssh/config
+
 # create tar_path if it doesn't exist
 ssh -i $pk_filepath $DEPLOY_USER@$DEPLOY_HOST "mkdir -p $AWS_TAR_PATH"
 
