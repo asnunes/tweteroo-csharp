@@ -5,8 +5,8 @@ services:
     container_name: tweteroo-csharp
     network_mode: host
     environment:
-      - DATABASE__HOST=localhost
-      - DATABASE__PORT=5432
+      - DATABASE__HOST=${POSTGRES_HOST}
+      - DATABASE__PORT=${POSTGRES_PORT}
       - DATABASE__USERNAME=${POSTGRES_USER}
       - DATABASE__PASSWORD=${POSTGRES_PASSWORD}
       - DATABASE__NAME=${POSTGRES_DB}
@@ -19,8 +19,8 @@ services:
     container_name: migrate
     network_mode: host
     environment:
-      - DATABASE__HOST=localhost
-      - DATABASE__PORT=5432
+      - DATABASE__HOST=${POSTGRES_HOST}
+      - DATABASE__PORT=${POSTGRES_HOST}
       - DATABASE__USERNAME=${POSTGRES_USER}
       - DATABASE__PASSWORD=${POSTGRES_PASSWORD}
       - DATABASE__NAME=${POSTGRES_DB}
