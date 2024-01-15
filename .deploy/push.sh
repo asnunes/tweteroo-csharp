@@ -3,6 +3,7 @@
 $pk_filepath = /tmp/pk
 
 # Add private key to ssh-agent
+touch $pk_filepath
 echo $PK >> $pk_filepath
 eval "$(ssh-agent -s)"
 chmod 600 $pk_filepath
