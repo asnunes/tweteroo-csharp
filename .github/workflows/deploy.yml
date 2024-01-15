@@ -31,4 +31,4 @@ jobs:
         run: bash ./.deploy/push.sh
 
       - name: Deploy And Run Migrations
-        run: ssh -i /tmp/pk $DEPLOY_USER@$DEPLOY_HOST "bash git pull && bash $DEPLOY_PATH/deploy.sh"
+        run: ssh -i /tmp/pk.pem $DEPLOY_USER@$DEPLOY_HOST "bash git pull && bash $DEPLOY_PATH/deploy.sh"
