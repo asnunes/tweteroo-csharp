@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$pk_filepath = /tmp/pk
+$pk_filepath=/tmp/pk
 
 # Add private key to ssh-agent
 touch $pk_filepath
