@@ -15,7 +15,7 @@ services:
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
 
   migrate:
-    image: tweteroocsharp-migrate
+    image: tweteroo-csharp-migrate
     container_name: migrate
     network_mode: host
     environment:

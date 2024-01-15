@@ -1,0 +1,76 @@
+# on:
+#   push:
+#     branches:
+#       - main
+
+name: Build and Deploy to Cloud Run
+env:
+  PROJECT_ID: ${{ secrets.GCP_STAGING_PROJECT }}
+  SA_KEY: ${{ secrets.GCP_STAGING_SA_KEY }}
+  GCP_SQL_INSTANCE: ${{ secrets.GCP_SQL_INSTANCE }}
+  SERVICE: tweteroo-csharp
+  REGION: us-central1
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    environment: STAGING
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        dotnet: ['8.0.1']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ env.SA_KEY }}
+
+      - name: Authorize Docker push
+        run: gcloud auth configure-docker
+
+      - name: Build and Push Container
+        run: |-
+          docker build --progress=plain -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |-
+          gcloud run deploy ${{ env.SERVICE }} \
+            --region ${{ env.REGION }} \
+            --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} \
+            --platform "managed" \
+            --quiet
+
+      - name: Get public IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+
+      - name: Authorize current IP on GCP SQL
+        run: |
+          gcloud sql instances patch ${{ env.GCP_SQL_INSTANCE }} \
+            --authorized-networks=${{ steps.ip.outputs.ipv4 }} --quiet
+
+      - name: Run migrations
+        run: |
+          cd $GITHUB_WORKSPACE
+          docker build --progress=plain -t tweteroo-migrations -f Dockerfile.migrations .
+          docker run --rm \
+            -e DATABASE__HOST=${{ secrets.STAGING_POSTGRES_HOST }} \
+            -e DATABASE__PORT=${{ secrets.STAGING_POSTGRES_PORT }} \
+            -e DATABASE__USERNAME=${{ secrets.STAGING_POSTGRES_USERNAME }} \
+            -e DATABASE__NAME=${{ secrets.STAGING_POSTGRES_DATABASE }} \
+            -e DATABASE__PASSWORD=${{ secrets.STAGING_POSTGRES_PASSWORD }} \
+            --network host \
+            tweteroo-migrations
+
+
+      - name: Remove current IP on GCP SQL
+        if: always()
+        run: |
+          gcloud sql instances patch ${{ env.GCP_SQL_INSTANCE }} \
+            --clear-authorized-networks --quiet

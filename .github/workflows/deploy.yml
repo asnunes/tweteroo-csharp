@@ -5,12 +5,12 @@ on:
 
 name: Build and Deploy to Cloud Run
 env:
-  PROJECT_ID: ${{ secrets.GCP_STAGING_PROJECT }}
-  SA_KEY: ${{ secrets.GCP_STAGING_SA_KEY }}
-  GCP_SQL_INSTANCE: ${{ secrets.GCP_SQL_INSTANCE }}
-  SERVICE: tweteroo-csharp
-  REGION: us-central1
-  DOCKER_BUILDKIT: 1
+  PK: ${{ secrets.AWS_PK }}
+  DEPLOY_USER: ${{ secrets.AWS_DEPLOY_USER }}
+  DEPLOY_HOST: ${{ secrets.AWS_DEPLOY_HOST }}
+  DEPLOY_PATH: ${{ secrets.AWS_DEPLOY_PATH }}
+  TAR_PATH: ${{ secrets.AWS_TAR_PATH }}
+  TMP_DIR: ${{ secrets.AWS_TMP_DIR }}
 
 jobs:
   deploy:
@@ -24,53 +24,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.2.0
-        with:
-          project_id: ${{ env.PROJECT_ID }}
-          service_account_key: ${{ env.SA_KEY }}
+      - name: Build Application
+        run: bash ./.deploy/build.sh
 
-      - name: Authorize Docker push
-        run: gcloud auth configure-docker
+      - name: Build Migrations
+        run: bash ./.deploy/build_migrations.sh
 
-      - name: Build and Push Container
-        run: |-
-          docker build --progress=plain -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
-          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
+      - name: Push to EC2
+        run: bash ./.deploy/push.sh
 
-      - name: Deploy to Cloud Run
-        run: |-
-          gcloud run deploy ${{ env.SERVICE }} \
-            --region ${{ env.REGION }} \
-            --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} \
-            --platform "managed" \
-            --quiet
-
-      - name: Get public IP
-        id: ip
-        uses: haythem/public-ip@v1.2
-
-      - name: Authorize current IP on GCP SQL
-        run: |
-          gcloud sql instances patch ${{ env.GCP_SQL_INSTANCE }} \
-            --authorized-networks=${{ steps.ip.outputs.ipv4 }} --quiet
-
-      - name: Run migrations
-        run: |
-          cd $GITHUB_WORKSPACE
-          docker build --progress=plain -t tweteroo-migrations -f Dockerfile.migrations .
-          docker run --rm \
-            -e DATABASE__HOST=${{ secrets.STAGING_POSTGRES_HOST }} \
-            -e DATABASE__PORT=${{ secrets.STAGING_POSTGRES_PORT }} \
-            -e DATABASE__USERNAME=${{ secrets.STAGING_POSTGRES_USERNAME }} \
-            -e DATABASE__NAME=${{ secrets.STAGING_POSTGRES_DATABASE }} \
-            -e DATABASE__PASSWORD=${{ secrets.STAGING_POSTGRES_PASSWORD }} \
-            --network host \
-            tweteroo-migrations
-
-
-      - name: Remove current IP on GCP SQL
-        if: always()
-        run: |
-          gcloud sql instances patch ${{ env.GCP_SQL_INSTANCE }} \
-            --clear-authorized-networks --quiet
+      - name: Deploy And Run Migrations
+        run: ssh -i /tmp/pk $DEPLOY_USER@$DEPLOY_HOST "bash git pull && bash $DEPLOY_PATH/deploy.sh"
