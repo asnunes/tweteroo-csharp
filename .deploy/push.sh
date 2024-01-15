@@ -4,17 +4,17 @@ pk_filepath=/tmp/pk
 
 # Add private key to ssh-agent
 touch $pk_filepath
-echo $PK >> $pk_filepath
+echo "$PK" > $pk_filepath
 chmod 600 $pk_filepath
 
 # Add the server to known_hosts
 mkdir -p ~/.ssh
+eval $(ssh-agent -s)
+chmod 700 $pk_filepath
 touch ~/.ssh/config
-echo "HOST *" > ~/.ssh/config
-echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
 # create tar_path if it doesn't exist
-ssh -i $pk_filepath $DEPLOY_USER@$DEPLOY_HOST "mkdir -p $AWS_TAR_PATH"
+ssh -o StrictHostKeyChecking=no -i $pk_filepath $DEPLOY_USER@$DEPLOY_HOST "mkdir -p $AWS_TAR_PATH"
 
 # Copy the Docker image tarballs to the server
-scp -i $pk_filepath $TMP_DIR/*.tar $DEPLOY_USER@$DEPLOY_HOST:$AWS_TAR_PATH
+scp -o StrictHostKeyChecking=no -i $pk_filepath $TMP_DIR/*.tar $DEPLOY_USER@$DEPLOY_HOST:$AWS_TAR_PATH
