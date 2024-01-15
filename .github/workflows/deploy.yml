@@ -31,4 +31,4 @@ jobs:
         run: bash ./.deploy/push.sh
 
       - name: Deploy And Run Migrations
-        run: ssh -o StrictHostKeyChecking=no -i /tmp/pk $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_PATH && git pull && ./.deploy/deploy.sh"
+        run: ssh -o StrictHostKeyChecking=no -i /tmp/pk $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_PATH && git pull && bash ./.deploy/deploy.sh"
