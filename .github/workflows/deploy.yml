@@ -17,9 +17,6 @@ jobs:
     runs-on: ubuntu-20.04
     environment: STAGING
     timeout-minutes: 10
-    strategy:
-      matrix:
-        dotnet: ['8.0.1']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
