@@ -14,7 +14,7 @@ chmod 700 $pk_filepath
 touch ~/.ssh/config
 
 # create tar_path if it doesn't exist
-ssh -o StrictHostKeyChecking=no -i $pk_filepath $DEPLOY_USER@$DEPLOY_HOST "mkdir -p $AWS_TAR_PATH"
+ssh -o StrictHostKeyChecking=no -i $pk_filepath $DEPLOY_USER@$DEPLOY_HOST "mkdir -p $TAR_PATH"
 
 # Copy the Docker image tarballs to the server
-scp -o StrictHostKeyChecking=no -i $pk_filepath $TMP_DIR/*.tar $DEPLOY_USER@$DEPLOY_HOST:$AWS_TAR_PATH
+scp -o StrictHostKeyChecking=no -i $pk_filepath $TMP_DIR/*.tar $DEPLOY_USER@$DEPLOY_HOST:$TAR_PATH
