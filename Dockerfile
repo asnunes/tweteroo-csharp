@@ -15,10 +15,6 @@ RUN dotnet publish -c Release -o dist
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
-# Install ef to run migrations
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="${PATH}:/root/.dotnet/tools"
-
 # Copy the app's published folder from the build env
 COPY --from=build-env /app/dist .
 
