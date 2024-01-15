@@ -7,6 +7,9 @@ touch $pk_filepath
 echo $PK >> $pk_filepath
 chmod 600 $pk_filepath
 
+# Add the server to known_hosts
+mkdir -p ~/.ssh
+touch ~/.ssh/config
 echo "HOST *" > ~/.ssh/config
 echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
