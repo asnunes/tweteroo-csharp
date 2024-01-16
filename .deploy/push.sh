@@ -5,7 +5,6 @@ pk_filepath=/tmp/pk
 # Add private key to ssh-agent
 touch $pk_filepath
 echo "$PK" > $pk_filepath
-chmod 600 $pk_filepath
 
 # Add the server to known_hosts
 mkdir -p ~/.ssh
