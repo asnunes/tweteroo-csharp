@@ -1,5 +1,5 @@
 [Serializable]
 public class Health
 {
-    public bool Healthy { get; } = true;
+    public bool Ok { get; } = true;
 }
