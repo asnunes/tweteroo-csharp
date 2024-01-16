@@ -6,7 +6,7 @@ tar_files=$(ls $TAR_PATH/*.tar)
 # load each tar file into docker
 for tar_file in $tar_files
 do
-    docker load -i $TAR_PATH/$tar_file
+    docker load -i $tar_file
 done
 
 # remove the tar files
