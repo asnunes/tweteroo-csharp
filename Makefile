@@ -38,6 +38,15 @@ dev-build:
 dev-down:
 	$(dev_compose) down
 
+# K6
+.PRONY: k6-build
+k6-build:
+	docker build -t tweteroo-k6 -f ./Dockerfile.k6 .
+
+.PRONY: k6 
+k6:
+	docker run --network=host -v ./.k6:/app tweteroo-k6 $(FILEPATH)
+
 # CERTIFICATES
 .PRONY: new-cert
 new-cert:
