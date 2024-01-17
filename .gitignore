@@ -78,3 +78,4 @@ _[Ss]cripts
 ./.k6/**/*.csv
 ./.k6/**/*.json
 ./.k6/**/.env
+./.k6/node_modules/
