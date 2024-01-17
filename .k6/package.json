@@ -3,7 +3,8 @@
   "description": "",
   "scripts": {
     "build": "webpack --mode=production",
-    "dev:build": "webpack --mode=development"
+    "build:dev": "webpack --mode=development",
+    "test": "bash ./scripts/dev.sh"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",

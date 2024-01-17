@@ -1,26 +1,30 @@
 const path = require("path");
 const fs = require("fs");
 
-const entries = fs.readdirSync("./src").reduce((acc, file) => {
-  if (file.endsWith(".js")) {
-    const key = file.slice(0, -3);
-    const value = `./src/${file}`;
+module.exports = (env) => {
+  console.log(env);
 
-    acc[key] = value;
+  const fileEntry = env.entry;
+  if (!fileEntry) {
+    throw new Error("No entry file provided");
   }
-  return acc;
-}, {});
 
-module.exports = {
-  entry: entries,
-  output: {
-    path: path.resolve(__dirname, "dist"), // eslint-disable-line
-    libraryTarget: "commonjs",
-    filename: "[name].bundle.js",
-  },
-  module: {
-    rules: [{ test: /\.js$/, use: "babel-loader" }],
-  },
-  target: "web",
-  externals: /k6(\/.*)?/,
+  const key = fileEntry.split(path.sep).pop().split(".").slice(0, -1).join(".");
+  const value = fileEntry;
+
+  return {
+    entry: {
+      [key]: value,
+    },
+    output: {
+      path: path.resolve(__dirname, "dist"), // eslint-disable-line
+      libraryTarget: "commonjs",
+      filename: "[name].js",
+    },
+    module: {
+      rules: [{ test: /\.js$/, use: "babel-loader" }],
+    },
+    target: "web",
+    externals: /k6(\/.*)?/,
+  };
 };

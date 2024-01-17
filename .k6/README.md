@@ -17,3 +17,7 @@ npm run test <test-file>
 ```
 
 This command will build the given file and run it on the dist folder. You can find the results on the dist folder.
+
+### Where to put tests
+
+All the test should be placed inside the test folder. While any file inside libs folder must be executed directly, the test files must be bundled and then executed due to k6 limitations.
