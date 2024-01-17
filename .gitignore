@@ -76,4 +76,5 @@ _[Ss]cripts
 
 .env
 ./.k6/**/*.csv
+./.k6/**/*.json
 ./.k6/**/.env
