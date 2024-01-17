@@ -4,7 +4,8 @@
   "scripts": {
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
-    "test": "bash ./scripts/dev.sh"
+    "test": "bash ./scripts/dev.sh",
+    "seed": "node ./seed/seed.js"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",

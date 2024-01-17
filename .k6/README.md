@@ -10,7 +10,15 @@ To use it, you need to have K6 installed on your system. You need to follow the 
 npm install
 ```
 
-3. Run the tests:
+4. Add the environment variables to the `.env` file based on o the `.env.example` file.
+
+5. Prepare the environment with seed. **ATTENTION**: All data will be deleted from the database before seeding.
+
+```bash
+npm run seed
+```
+
+6. Run the tests:
 
 ```bash
 npm run test <test-file>
