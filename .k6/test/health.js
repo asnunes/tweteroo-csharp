@@ -6,5 +6,5 @@ export const options = {
 };
 
 export default function () {
-  http.get("http://localhost:5144/health");
+  http.get(`${process.env.API_URL}/health`);
 }

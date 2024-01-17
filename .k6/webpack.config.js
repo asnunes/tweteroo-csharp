@@ -1,8 +1,11 @@
+const webpack = require("webpack");
 const path = require("path");
 const fs = require("fs");
 
+const dotenv = require("dotenv");
+
 module.exports = (env) => {
-  console.log(env);
+  console.log(dotenv.parse(fs.readFileSync(".env")));
 
   const fileEntry = env.entry;
   if (!fileEntry) {
@@ -26,5 +29,10 @@ module.exports = (env) => {
     },
     target: "web",
     externals: /k6(\/.*)?/,
+    plugins: [
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(dotenv.parse(fs.readFileSync(".env"))),
+      }),
+    ],
   };
 };
