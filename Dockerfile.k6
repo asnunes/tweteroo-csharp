@@ -1,0 +1,16 @@
+FROM node:20.11.0
+
+# Install k6
+WORKDIR /app
+
+RUN wget https://github.com/grafana/k6/releases/download/v0.48.0/k6-v0.48.0-linux-amd64.deb
+RUN dpkg -i k6-v0.48.0-linux-amd64.deb
+RUN rm k6-v0.48.0-linux-amd64.deb
+
+COPY ./.k6/package*.json /app
+
+# Install dependencies
+RUN npm install
+
+# Run k6
+ENTRYPOINT ["bash", "./scripts/exec.sh"]
