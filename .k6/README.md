@@ -1,19 +1,19 @@
-Make sure you generated the csv data before running tests
+This is the K6 NPM package to run K6 tests from NodeJS.
 
-1. Install dependencies
+To use it, you need to have K6 installed on your system. You need to follow the steps below:
 
-```bash
-pip install python-dotenv psycopg2-binary uuid
-```
+1. Install K6 on your system. You can find the instructions [here](https://k6.io/docs/getting-started/installation/).
 
-2. Create a `.env` file inside this folder from the `.env.example` file
+2. Install the package dependencies:
 
 ```bash
-cp .env.example .env
+npm install
 ```
 
-3. Run the seed script. **ATTENTION**: All data will be deleted from the database before seeding.
+3. Run the tests:
 
 ```bash
-python ./seed/users.py
+npm run test <test-file>
 ```
+
+This command will build the given file and run it on the dist folder. You can find the results on the dist folder.
