@@ -75,3 +75,5 @@ _[Ss]cripts
 *.dot[Cc]over
 
 .env
+./.k6/**/*.csv
+./.k6/**/.env
