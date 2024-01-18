@@ -10,7 +10,7 @@ env:
   DB_USER: ${{ secrets.AWS_DB_USER }}
   DB_PASSWORD: ${{ secrets.AWS_DB_PASSWORD }}
   DB_DATABASE: ${{ secrets.AWS_DB_DATABASE }}
-  API_URL: https://demo-csharp.driven.com.br/
+  API_URL: https://demo-csharp.driven.com.br
   PK_PATH: /tmp/pk
 jobs:
   test:
