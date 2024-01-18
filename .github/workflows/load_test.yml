@@ -9,6 +9,7 @@ env:
   DB_PORT: ${{ secrets.AWS_DB_PORT }}
   DB_USER: ${{ secrets.AWS_DB_USER }}
   DB_PASSWORD: ${{ secrets.AWS_DB_PASSWORD }}
+  PK_PATH: /tmp/pk
 jobs:
   deploy:
     runs-on: ubuntu-20.04

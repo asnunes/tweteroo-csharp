@@ -12,6 +12,7 @@ env:
   TAR_PATH: ${{ secrets.AWS_TAR_PATH }}
   TMP_DIR: ${{ secrets.AWS_TMP_DIR }}
   DATABASE_URL: ${{ secrets.AWS_DATABASE_URL }}
+  PK_PATH: /tmp/pk
 
 jobs:
   deploy:
