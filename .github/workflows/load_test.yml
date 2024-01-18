@@ -1,0 +1,22 @@
+on:
+  workflow_dispatch:
+name: Run Load Tests
+env:
+  PK: ${{ secrets.AWS_PK }}
+  DEPLOY_USER: ${{ secrets.AWS_DEPLOY_USER }}
+  DEPLOY_HOST: ${{ secrets.AWS_DEPLOY_HOST }}
+  DATABASE_URL: ${{ secrets.AWS_DATABASE_URL }}
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    environment: STAGING
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build K6
+        run: make build-k6
+
+      - name: Seed Database
+        run: make seed-db

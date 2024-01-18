@@ -45,7 +45,15 @@ k6-build:
 
 .PRONY: k6 
 k6:
-	docker run --network=host -v ./.k6:/app tweteroo-k6 $(FILEPATH)
+	docker run --network=host -v ./.k6:/app tweteroo-k6 test $(FILEPATH)
+
+.PRONY: k6-seed-dev
+k6-seed-dev:
+	docker run --network=host -v ./.k6:/app tweteroo-k6 seed
+
+.PRONY: k6-seed
+k6-seed:
+	docker run --network=host -v ./.k6:/app -e DATABASE_URL=${DATABASE_URL} tweteroo-k6 seed 
 
 # CERTIFICATES
 .PRONY: new-cert
