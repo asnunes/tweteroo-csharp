@@ -11,7 +11,7 @@ env:
   DB_PASSWORD: ${{ secrets.AWS_DB_PASSWORD }}
   PK_PATH: /tmp/pk
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-20.04
     environment: STAGING
     timeout-minutes: 10

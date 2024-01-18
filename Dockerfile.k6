@@ -12,5 +12,7 @@ COPY ./.k6/package*.json /app
 # Install dependencies
 RUN npm install
 
+COPY ./.k6 /app
+
 # Run k6
 ENTRYPOINT ["bash", "./scripts/exec.sh"]
