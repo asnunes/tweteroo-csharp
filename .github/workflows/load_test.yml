@@ -5,7 +5,10 @@ env:
   PK: ${{ secrets.AWS_PK }}
   DEPLOY_USER: ${{ secrets.AWS_DEPLOY_USER }}
   DEPLOY_HOST: ${{ secrets.AWS_DEPLOY_HOST }}
-  DATABASE_URL: ${{ secrets.AWS_DATABASE_URL }}
+  DB_HOST: ${{ secrets.AWS_DB_HOST }}
+  DB_PORT: ${{ secrets.AWS_DB_PORT }}
+  DB_USER: ${{ secrets.AWS_DB_USER }}
+  DB_PASSWORD: ${{ secrets.AWS_DB_PASSWORD }}
 jobs:
   deploy:
     runs-on: ubuntu-20.04
@@ -15,8 +18,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Create K6 env file
+        run: echo "export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:5432/postgres" >> ./.k6/.env
+
       - name: Build K6
-        run: make build-k6
+        run: make k6-build
+
+      - name: Store SSH Key
+        run: bash ./.deploy/store_ssh_key.sh
+
+      - name: Postgres SSH tunnel over EC2
+        run: ssh -fN -o StrictHostKeyChecking=no -i /tmp/pk -L 5432:${DB_HOST}:${AWS_DB_PORT} ${AWS_DEPLOY_USER}@${AWS_DEPLOY_HOST}
 
       - name: Seed Database
-        run: make seed-db
+        run: make k6-seed
+
+      - name: Run Load Tests For Health
+        run: make k6 ./.k6/tests/health.js
+
+      - name: Run Load Tests For Get Users
+        run: make k6 ./.k6/tests/get-users.js
+
+      - name: Run Load Tests For Create Tweets
+        run: make k6 ./.k6/tests/create-tweets.js

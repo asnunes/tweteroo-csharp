@@ -28,6 +28,9 @@ jobs:
       - name: Build Migrations
         run: bash ./.deploy/build_migrations.sh
 
+      - name: Store SSH Key
+        run: bash ./.deploy/store_ssh_key.sh
+
       - name: Push to EC2
         run: bash ./.deploy/push.sh
 
