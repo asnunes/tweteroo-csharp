@@ -22,7 +22,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create K6 env file
-        run: echo "DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:5432/${DB_DATABASE}\nAPI_URL=${API_URL}" >> ./.k6/.env
+        run: |
+          touch ./.k6/.env
+          echo "DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:5432/${DB_DATABASE}" >> ./.k6/.env
+          echo "API_URL=${API_URL}" >> ./.k6/.env
 
       - name: Build K6
         run: make k6-build
