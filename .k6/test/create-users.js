@@ -19,5 +19,5 @@ export default function () {
   });
   const headers = { "Content-Type": "application/json" };
 
-  http.post("http://localhost:5144/Users", body, { headers });
+  http.post(`${process.env.API_URL}/Users`, body, { headers });
 }

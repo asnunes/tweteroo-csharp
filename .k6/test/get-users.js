@@ -15,5 +15,5 @@ const data = new SharedArray("users", function () {
 export default function () {
   const randomUser = data[Math.floor(Math.random() * data.length)];
 
-  http.get(`http://localhost:5144/Users/${randomUser.id}`);
+  http.get(`${process.env.API_URL}/${randomUser.id}`);
 }

@@ -21,5 +21,5 @@ export default function () {
   const body = JSON.stringify(tweet);
   const headers = { "Content-Type": "application/json" };
 
-  http.post(`http://localhost:5144/Tweets`, body, { headers });
+  http.post(`${process.env.API_URL}/Tweets`, body, { headers });
 }
