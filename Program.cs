@@ -35,6 +35,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseMetricServer();
+app.UseHttpMetrics(options =>
+    {
+        options.AddCustomLabel("host", context => context.Request.Host.Host);
+    });
 
 app.MapControllers();
 app.MapMetrics();
